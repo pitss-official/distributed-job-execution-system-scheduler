@@ -1,0 +1,23 @@
+{
+  "dataStores": {
+    "mongoDB": {
+      "URI": "THIS_IS_AN_ENVIRONMENT_VARIABLE"
+    }
+  },
+  "system": {
+    "core": {
+      "scheduler": {
+        "enabled": true,
+        "cron": "*/1 * * * * *",
+        "timeZone": "Asia/Kolkata"
+      },
+      "assigner": {
+        "enabled": true
+      },
+      "api": {
+        "enabled": true,
+        "port": 3000
+      }
+    }
+  }
+}
