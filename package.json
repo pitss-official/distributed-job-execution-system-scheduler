@@ -1,0 +1,32 @@
+{
+  "name": "task-management-service",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "config": "^3.3.7",
+    "cron": "^1.8.2",
+    "express": "^4.17.3",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.2.3",
+    "redis": "^4.0.4",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  },
+  "nodemonConfig": {
+    "delay": 1000
+  },
+  "scripts": {
+    "start": "tsc && node ./dist/app.js",
+    "dev": "nodemon app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
