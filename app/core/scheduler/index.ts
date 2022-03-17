@@ -2,11 +2,13 @@
 import Task from "../../../models/Task";
 import cron from "cron";
 import config from "config";
+import Executable from "../interfaces/Executable";
 
-class Scheduler {
+class Scheduler implements Executable {
   private readonly cronService;
   private readonly config = config.get("system.core.scheduler");
   private running = false;
+  readonly name = "Scheduler";
 
   constructor() {
     this.cronService = new cron.CronJob(
@@ -41,12 +43,12 @@ class Scheduler {
 
   async onComplete() {}
 
-  start() {
+  async start() {
     this.cronService.start();
     this.running = true;
   }
 
-  stop() {
+  async stop() {
     this.cronService.stop();
     this.running = false;
   }

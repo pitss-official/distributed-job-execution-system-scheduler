@@ -21,10 +21,12 @@ class Core {
     try {
       log(chalk.bgGray("Initializing Datastores"));
 
-      for (const datastore in datastores) {
-        console.log(datastore, datastores);
-        await datastores[datastore].default.connect();
-        log(chalk.green("✓ Initializing " + datastores[datastore].name));
+      for (const key in datastores) {
+        const datastore = datastores[key].default;
+
+        await datastore.connect();
+
+        log(chalk.green("✓ Initializing " + datastore.name));
       }
 
       log(chalk.bgGray("Starting core services"));
@@ -37,9 +39,11 @@ class Core {
     }
   }
 
-  shutdown() {
+  async shutdown() {
     const log = console.log;
-    scheduler.stop();
+
+    await scheduler.stop();
+
     log(chalk.bgYellow("Shutting down"));
   }
 }
