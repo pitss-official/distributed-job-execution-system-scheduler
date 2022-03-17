@@ -140,6 +140,11 @@
 
 //======Scheduler=======//
 
+import exitHook from "./utils/exit-hook";
 import Core from "./app/core";
 
 Core.start();
+
+exitHook(async () => {
+  await Core.shutdown();
+});

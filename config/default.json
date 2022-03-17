@@ -8,7 +8,7 @@
     "core": {
       "scheduler": {
         "enabled": true,
-        "cron": "*/1 * * * * *",
+        "cron": "* * * * *",
         "timeZone": "Asia/Kolkata"
       },
       "assigner": {
