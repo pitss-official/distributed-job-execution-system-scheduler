@@ -1,14 +1,11 @@
 import Datastore from "../interfaces/Datastores";
-import { createClient } from "redis";
+import ioredis from "ioredis";
+import config from "config";
 
 class Redis implements Datastore {
   name = "Redis";
   public isConnected: boolean;
-  private readonly redisClient: any;
-
-  constructor() {
-    this.redisClient = createClient();
-  }
+  readonly client = new ioredis(config.get("dataStores.redis"));
 
   handleError(err) {
     //TODO: Migrate to error class for auto error segregation
@@ -18,7 +15,7 @@ class Redis implements Datastore {
 
   async connect() {
     try {
-      await this.redisClient.connect();
+      this.client.set(this.name, new Date().valueOf());
 
       this.isConnected = true;
     } catch (e) {
@@ -33,14 +30,6 @@ class Redis implements Datastore {
 
   async shutdown() {
     this.isConnected = false;
-  }
-
-  async client() {
-    if (!this.isConnected) {
-      await this.connect();
-    }
-
-    return this.redisClient;
   }
 }
 

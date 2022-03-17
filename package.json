@@ -12,9 +12,11 @@
     "config": "^3.3.7",
     "cron": "^1.8.2",
     "express": "^4.17.3",
+    "ioredis": "^5.0.0-beta.2",
     "lodash": "^4.17.21",
     "mongoose": "^6.2.3",
     "redis": "^4.0.4",
+    "redlock": "^5.0.0-beta.2",
     "socket.io": "^4.4.1"
   },
   "devDependencies": {

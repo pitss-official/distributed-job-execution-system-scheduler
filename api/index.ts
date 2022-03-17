@@ -5,7 +5,7 @@ import Task from "../models/Task";
 //Todo: Rearrange stuff here
 
 const app = express();
-const API_PORT = config.get("system.core.api.port");
+const API_PORT = config.get("system.core.services.api.port");
 app.use(express.json());
 app.get("/health", (req, res) => {
   res.send({
