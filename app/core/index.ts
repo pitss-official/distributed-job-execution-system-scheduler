@@ -49,12 +49,40 @@ class Core {
     }
   }
 
+  async stopService(identifier, { isExecuting, instance }) {
+    const service = Core.coreServiceRegister.get(identifier);
+
+    try {
+      if (isExecuting) {
+        this.log(chalk.yellow(`  ✓ Stopping ${instance.name} service`));
+
+        await instance.stop();
+
+        this.log(chalk.green(`  ✓ Stopped ${instance.name} service`));
+
+        service.isExecuting = false;
+      }
+    } catch (e) {
+      this.handleError(instance, e);
+      this.log(chalk.red(`❌ Couldn't stop ${instance.name}`), e);
+    }
+  }
+
   /**
    * Triggers execution of service from service register
    */
   executeAllServices() {
     for (const [identifier, service] of Core.coreServiceRegister) {
       this.startService(identifier, service);
+    }
+  }
+
+  /**
+   * Stops execution of service from service register
+   */
+  stopAllServices() {
+    for (const [identifier, service] of Core.coreServiceRegister) {
+      this.stopService(identifier, service);
     }
   }
 
@@ -70,7 +98,9 @@ class Core {
     });
   }
 
-  handleError(instance, err) {}
+  handleError(instance, err) {
+    console.error(instance, err);
+  }
 
   handleSuccess(instance) {}
 
@@ -100,14 +130,19 @@ class Core {
       this.executeAllServices();
     } catch (e) {
       this.log(chalk.bgRed("Failed to start"));
+
+      console.error(e);
+
       await this.shutdown();
     }
   }
 
   async shutdown() {
-    await scheduler.stop();
+    await this.stopAllServices();
 
     this.log(chalk.bgYellow("\n Shutting down"));
+
+    process.exit();
   }
 }
 
