@@ -73,7 +73,7 @@ class Core {
    */
   executeAllServices() {
     for (const [identifier, service] of Core.coreServiceRegister) {
-      this.startService(identifier, service);
+      this.startService(identifier, service).then(this.log);
     }
   }
 
@@ -82,7 +82,7 @@ class Core {
    */
   stopAllServices() {
     for (const [identifier, service] of Core.coreServiceRegister) {
-      this.stopService(identifier, service);
+      this.stopService(identifier, service).then(console.log);
     }
   }
 
