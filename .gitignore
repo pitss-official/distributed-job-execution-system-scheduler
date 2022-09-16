@@ -1,4 +1,5 @@
 config/development.json
 
 .idea
+.dist
 node_modules
