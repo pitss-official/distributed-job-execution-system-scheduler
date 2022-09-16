@@ -4,10 +4,10 @@ import config from "config";
 
 class Redis implements Datastore {
   name = "Redis";
-  public isConnected: boolean;
+  public isConnected: boolean = false;
   readonly client = new ioredis(config.get("dataStores.redis"));
 
-  handleError(err) {
+  handleError(err: Error) {
     //TODO: Migrate to error class for auto error segregation
 
     console.log("Redis Client Error", err);
@@ -19,7 +19,7 @@ class Redis implements Datastore {
 
       this.isConnected = true;
     } catch (e) {
-      this.handleError(e);
+      this.handleError(<Error>e);
       this.isConnected = false;
 
       throw e;

@@ -4,7 +4,7 @@ const callbacks = new Set();
 let isCalled = false;
 let isRegistered = false;
 
-function exit(shouldManuallyExit, signal) {
+function exit(shouldManuallyExit: boolean, signal: number) {
   if (isCalled) {
     return;
   }
@@ -20,7 +20,7 @@ function exit(shouldManuallyExit, signal) {
   }
 }
 
-export default function exitHook(onExit) {
+export default function exitHook(onExit: () => void) {
   callbacks.add(onExit);
 
   if (!isRegistered) {

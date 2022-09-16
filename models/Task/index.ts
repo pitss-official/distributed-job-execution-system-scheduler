@@ -7,7 +7,7 @@ import cron from "cron";
 const TaskModel = mongoose.model("Task", taskSchema);
 
 export default class Task extends TaskModel {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
   }
 

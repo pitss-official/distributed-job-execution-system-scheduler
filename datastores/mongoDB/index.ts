@@ -1,18 +1,18 @@
-import config from "config";
-import mongoose from "mongoose";
-import Datastore from "../interfaces/Datastores";
+import config from 'config';
+import mongoose from 'mongoose';
+import Datastore from '../interfaces/Datastores';
 
 class MongoDB implements Datastore {
-  name = "MongoDB";
-  isConnected: boolean;
+  name = 'MongoDB';
+  isConnected: boolean = false;
 
   private static get uri() {
-    return config.get("dataStores.mongoDB.URI");
+    return config.get('dataStores.mongoDB.URI');
   }
 
   async connect() {
     try {
-      await mongoose.connect(MongoDB.uri);
+      await mongoose.connect(<string>MongoDB.uri);
 
       this.isConnected = true;
     } catch (e) {
@@ -26,6 +26,7 @@ class MongoDB implements Datastore {
 
   async shutdown() {
     await mongoose.disconnect();
+
     this.isConnected = false;
   }
 }

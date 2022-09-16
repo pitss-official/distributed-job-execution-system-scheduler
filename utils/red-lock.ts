@@ -5,7 +5,10 @@ import config from "config";
 const redisClusterA = redis.client;
 const redlock = new Redlock([redisClusterA], config.get("system.lock"));
 
-export function acquire(resources, ttl = config.get("system.lock.duration")) {
+export function acquire(
+  resources: string[],
+  ttl: number = config.get("system.lock.duration")
+) {
   return redlock.acquire(resources, ttl);
 }
 

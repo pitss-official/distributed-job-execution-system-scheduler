@@ -4,6 +4,6 @@ export default interface Datastore {
   disconnect?: boolean;
   shutdown?: () => Promise<void>;
   isConnected: boolean;
-  listner?: Function;
+  listener?: Function;
   broadcast?: Function;
 }

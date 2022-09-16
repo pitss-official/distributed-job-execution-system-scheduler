@@ -3,4 +3,5 @@ export default interface CoreService {
   start: () => Promise<void>;
   stop: () => Promise<void>;
   isEnabled: boolean;
+  on?: (string) => Promise<boolean|void>;
 }

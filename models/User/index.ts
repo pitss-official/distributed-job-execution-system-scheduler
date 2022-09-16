@@ -6,7 +6,7 @@ import userSchema from "../../schemas/user";
 const UserModel = mongoose.model("User", userSchema);
 
 export default class User extends UserModel {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
   }
 

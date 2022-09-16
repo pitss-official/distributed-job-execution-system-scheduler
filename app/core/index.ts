@@ -4,13 +4,20 @@ import datastores from "../../datastores";
 import exitHook from "../../utils/exit-hook";
 import redLock from "../../utils/red-lock";
 import { ResourceLockedError } from "redlock";
+import CoreService from "./interfaces/CoreService";
+
+type IService = {
+  isExecuting: boolean;
+  isExecuted: boolean;
+  instance: CoreService;
+};
 
 class Core {
   protected static coreServiceRegister = new Map();
   //Todo: Implement logger class that reports sys metrics and logs
   protected log = console.log;
 
-  public static registerService(instance) {
+  public static registerService(instance: CoreService) {
     this.coreServiceRegister.set(instance.name, {
       instance,
       isExecuted: false,
@@ -18,7 +25,10 @@ class Core {
     });
   }
 
-  async startService(identifier, { isExecuting, isExecuted, instance }) {
+  async startService(
+    identifier: string | Symbol,
+    { isExecuting, isExecuted, instance }: IService
+  ) {
     const service = Core.coreServiceRegister.get(identifier);
 
     try {
@@ -36,20 +46,21 @@ class Core {
 
         this.log(chalk.green(`  ✓ Started ${instance.name} service`));
 
-        await instance.on("finish");
+        await instance.on?.("finish");
 
         this.log(chalk.yellow(`  ✓ Finished ${instance.name}`));
 
         service.isExecuting = false;
         service.isExecuted = true;
       }
-    } catch (e) {
+    }
+    catch (e) {
       this.handleError(instance, e);
       this.log(chalk.red(`❌ Couldn't execute ${instance.name}`), e);
     }
   }
 
-  async stopService(identifier, { isExecuting, instance }) {
+  async stopService(identifier: string, { isExecuting, instance }:IService) {
     const service = Core.coreServiceRegister.get(identifier);
 
     try {
@@ -98,11 +109,11 @@ class Core {
     });
   }
 
-  handleError(instance, err) {
+  handleError(instance: CoreService, err: any) {
     console.error(instance, err);
   }
 
-  handleSuccess(instance) {}
+  handleSuccess(instance: IService) {}
 
   service() {
     this.start();
@@ -117,6 +128,7 @@ class Core {
       this.log(chalk.bgGray("\n Initializing Datastores"));
 
       for (const key in datastores) {
+        // @ts-ignore
         const datastore = datastores[key].default;
 
         await datastore.connect();
